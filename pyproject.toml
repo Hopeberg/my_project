@@ -32,4 +32,10 @@ select = ["I"]
 [tool.coverage.run]
 omit = ["tests/*"]
 
+[project.scripts]
+train = "my_project.train:main"
+
+evaluate = "my_project.evaluate:main"
+
+greetings = "my_project.iris_classifier:main" 
 

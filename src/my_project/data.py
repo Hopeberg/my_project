@@ -5,20 +5,16 @@ from torchvision import datasets, transforms
 # Define a transform to normalize the data
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-
 def normalize(images: torch.Tensor) -> torch.Tensor:
     """Normalize images."""
-    return (images - images.mean()) / images.std()
-
+    return (images - images.mean(dim=[2, 3], keepdim=True)) / images.std(dim=[2, 3], keepdim=True)
 
 def download_and_save_fashion_mnist(raw_dir: str = "data/raw") -> None:
     """Download and save FashionMNIST data to the raw directory."""
-    # Resolve the full path relative to the project root (go up one directory from src)
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the absolute path of the script
-    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))  # Go up two directories (src -> my_project)
-    full_raw_dir = os.path.join(project_root_dir, raw_dir)  # Combine with raw_dir
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))
+    full_raw_dir = os.path.join(project_root_dir, raw_dir)
 
-    # Ensure the raw directory exists
     os.makedirs(full_raw_dir, exist_ok=True)
     print(f"Saving raw data to: {full_raw_dir}")
 
@@ -57,9 +53,8 @@ def download_and_save_fashion_mnist(raw_dir: str = "data/raw") -> None:
 
 def preprocess_data(raw_dir: str = "data/raw", processed_dir: str = "data/processed") -> None:
     """Process raw data and save it to processed directory."""
-    # Resolve the full path for raw_dir
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the absolute path of the script
-    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))  # Go up two directories (src -> my_project)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))
     full_raw_dir = os.path.join(project_root_dir, raw_dir)
     full_processed_dir = os.path.join(project_root_dir, processed_dir)
 
@@ -73,12 +68,17 @@ def preprocess_data(raw_dir: str = "data/raw", processed_dir: str = "data/proces
     train_images = torch.cat(train_images)
     train_target = torch.cat(train_target)
 
-    test_images: torch.Tensor = torch.load(f"{full_raw_dir}/test_images.pt")
-    test_target: torch.Tensor = torch.load(f"{full_raw_dir}/test_target.pt")
+    test_images = torch.load(f"{full_raw_dir}/test_images.pt")
+    test_target = torch.load(f"{full_raw_dir}/test_target.pt")
 
-    # Normalize the data
-    train_images = train_images.unsqueeze(1).float()
-    test_images = test_images.unsqueeze(1).float()
+    # Normalize the data (ensure shape is correct: [N, 1, 28, 28])
+    # Do NOT add an extra channel dimension
+    train_images = train_images.float()
+    test_images = test_images.float()
+
+    # The shape should already be [N, 1, 28, 28] if the data is loaded correctly.
+    # No need for unsqueeze here.
+
     train_target = train_target.long()
     test_target = test_target.long()
 
@@ -95,9 +95,8 @@ def preprocess_data(raw_dir: str = "data/raw", processed_dir: str = "data/proces
 
 def corrupt_mnist() -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]:
     """Return train and test datasets for corrupt MNIST."""
-    # Load the processed data
-    base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the absolute path of the script
-    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))  # Go up two directories (src -> my_project)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root_dir = os.path.abspath(os.path.join(base_dir, "../.."))
     processed_dir = os.path.join(project_root_dir, "data/processed")
 
     train_images = torch.load(os.path.join(processed_dir, "train_images.pt"))
@@ -105,6 +104,7 @@ def corrupt_mnist() -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]
     test_images = torch.load(os.path.join(processed_dir, "test_images.pt"))
     test_target = torch.load(os.path.join(processed_dir, "test_target.pt"))
 
+    # Create TensorDataset for training and testing sets
     train_set = torch.utils.data.TensorDataset(train_images, train_target)
     test_set = torch.utils.data.TensorDataset(test_images, test_target)
     return train_set, test_set
@@ -113,3 +113,5 @@ def corrupt_mnist() -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]
 if __name__ == "__main__":
     download_and_save_fashion_mnist()  # Download data and save it to raw
     preprocess_data()  # Preprocess and save data to processed
+
+
