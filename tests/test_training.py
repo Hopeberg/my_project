@@ -1,4 +1,4 @@
-from my_project.model_solution import MyAwesomeModel
+from src.my_project.model_solution import MyAwesomeModel
 import torch 
 import pytest
 from pytorch_lightning import Trainer

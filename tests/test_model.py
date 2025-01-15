@@ -1,8 +1,9 @@
-from my_project.model_solution import MyAwesomeModel
+from src.my_project.model_solution import MyAwesomeModel
 import torch 
 import pytest 
 
 @pytest.mark.parametrize("batch_size", [32, 64])
+
 def test_model(batch_size: int) -> None:
     model = MyAwesomeModel()
     x = torch.randn(batch_size, 1, 28, 28)
