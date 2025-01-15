@@ -1,6 +1,9 @@
-torch==2.2.2
 typer==0.15.1
 fastapi==0.115.6
 uvicorn==0.34.0
 invoke 
+pytorch-lightning==2.5.0.post0
+wandb==0.19.2
+torch==2.2.2
 torchvision
+

@@ -28,8 +28,9 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Test with pytest
       run: |
-        export PYTHONPATH=$(pwd)/my_project >> $GITHUB_ENV
-        python -m pytest -v
+        pytest tests/test_data.py
+        pytest tests/test_model.py
+        pytest tests/test_training.py
     - name: Check directory structure (for debugging)
       run: |
         pwd
