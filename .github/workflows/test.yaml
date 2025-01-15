@@ -25,4 +25,9 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Test with pytest
       run: |
+        export PYTHONPATH=$(pwd)/my_project
         pytest -v
+    - name: Check directory structure (for debugging)
+      run: |
+        pwd
+        ls
