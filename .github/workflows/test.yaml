@@ -42,7 +42,7 @@ jobs:
         echo "PYTORCH_DISABLE_MPS=1" >> $GITHUB_ENV
 
     - name: Test with pytest
-      env:  
+      env:
         WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
       run: |
         pytest tests/test_data.py

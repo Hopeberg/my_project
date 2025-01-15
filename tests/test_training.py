@@ -1,5 +1,5 @@
 from src.my_project.model_solution import MyAwesomeModel
-import torch 
+import torch
 import pytest
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
@@ -22,7 +22,7 @@ def test_model_initialization():
 
     # Check the model architecture
     assert isinstance(model, MyAwesomeModel), "Model is not of the correct type"
-    
+
     # Ensure that the model has the correct number of parameters
     num_params = sum(p.numel() for p in model.parameters())
     assert num_params > 0, "Model has zero parameters"
@@ -39,7 +39,7 @@ def test_training_step():
 
     # Run the training step
     loss = model.training_step(batch)
-    
+
     # Check that loss is a tensor
     assert isinstance(loss, torch.Tensor), "Loss is not a tensor"
     assert loss.item() > 0, "Loss is non-positive"
@@ -50,18 +50,15 @@ def test_configure_optimizers():
 
     # Get the optimizer from the model's configure_optimizers method
     optimizers = model.configure_optimizers()
-    
+
     # Check that we get an Adam optimizer
     assert isinstance(optimizers, torch.optim.Optimizer), "Optimizer is not an instance of torch.optim.Optimizer"
-    assert isinstance(optimizers.param_groups[0]['params'], list), "Optimizer parameters are not a list"
+    assert isinstance(optimizers.param_groups[0]["params"], list), "Optimizer parameters are not a list"
 
 
 def test_trainer():
     # MNIST dataset
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.1307,), (0.3081,))
-    ])
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     train_set = datasets.MNIST(root="data", train=True, download=True, transform=transform)
     test_set = datasets.MNIST(root="data", train=False, download=True, transform=transform)
@@ -87,16 +84,17 @@ def test_trainer():
     trainer = Trainer(
         max_epochs=1,  # Run for 1 epoch for testing
         callbacks=[checkpoint_callback, early_stopping_callback],
-        logger=logger
+        logger=logger,
     )
 
     # Train the model
     trainer.fit(model, train_dataloader, val_dataloader)
     assert trainer.current_epoch == 1, "Trainer did not train for 1 epoch"
-    
+
     # Test the model (using the test set)
     test_results = trainer.test(model, test_dataloader)
     assert test_results is not None, "Testing phase failed"
+
 
 def test_model_output_shape():
     model = MyAwesomeModel()
@@ -106,6 +104,6 @@ def test_model_output_shape():
 
     # Get model output
     output = model(dummy_input)
-    
+
     # Check the output shape (should be (1, 10) for classification into 10 classes)
     assert output.shape == (1, 10), f"Expected output shape (1, 10), but got {output.shape}"
