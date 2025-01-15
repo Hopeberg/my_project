@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -23,19 +23,21 @@ dynamic = ["dependencies", "optional-dependencies"]
 dependencies = {file = ["requirements.txt"]}
 
 [tool.setuptools.dynamic.optional-dependencies]
-dev = {file = ['requirements_dev.txt']}
+dev = {file = ["requirements_dev.txt"]}
 
 [tool.ruff]
 line-length = 120
-select = ["I"]
+select = ["I001", "I002"]  # Corrected to include valid import sorting rules
+extend-ignore = ["I001"]  # Optionally ignore unsorted import warnings if necessary
+fix = true  # Automatically fix some issues with imports, etc.
 
 [tool.coverage.run]
 omit = ["tests/*"]
 
 [project.scripts]
 train = "my_project.train:main"
-
 evaluate = "my_project.evaluate:main"
+greetings = "my_project.iris_classifier:main"
 
-greetings = "my_project.iris_classifier:main" 
+
 

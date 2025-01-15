@@ -1,3 +1,4 @@
+import wandb
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, random_split
@@ -5,7 +6,7 @@ from torchvision import datasets, transforms
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 import pytorch_lightning as pl
-import wandb 
+
 
 # MNIST dataset
 transform = transforms.Compose([
