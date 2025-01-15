@@ -11,7 +11,7 @@ import os
 import os.path
 
 
-@pytest.mark.skipif(not os.path.exists( _PATH_DATA), reason="Data files not found")
+#@pytest.mark.skipif(not os.path.exists( _PATH_DATA), reason="Data files not found")
 
 def test_training_data_size():
     print(f"Path exists: {os.path.exists(_PATH_DATA)}, Path: {_PATH_DATA}")

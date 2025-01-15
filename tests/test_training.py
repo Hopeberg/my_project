@@ -7,6 +7,14 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.utils.data import random_split
 from pytorch_lightning.loggers import WandbLogger
+import os
+import platform
+
+if platform.system() == "Darwin":  # macOS
+    os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"  # Disable allocation limits
+    torch.backends.mps.is_available = lambda: False  # Disable MPS backend
+    torch.backends.mps.is_built = lambda: False  # Ensure MPS is not used
+
 
 def test_model_initialization():
     # Initialize model
