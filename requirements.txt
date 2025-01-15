@@ -1,10 +1,10 @@
 typer==0.15.1
 fastapi==0.115.6
 uvicorn==0.34.0
-invoke 
+invoke==2.2.0
 pytorch-lightning==2.5.0.post0
 wandb==0.19.2
 torch==2.2.2
-torchvision
-numpy 
+torchvision==0.17.2
+numpy==1.26.4
 
