@@ -28,6 +28,7 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Test with pytest
       run: |
+        export PYTHONPATH=$(pwd)/src 
         pytest tests/test_data.py
         pytest tests/test_model.py
         pytest tests/test_training.py
