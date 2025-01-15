@@ -14,7 +14,7 @@ jobs:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
         python-version: ["3.11"]
-    #comment 
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -23,6 +23,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
 
     - name: Install dependencies
       run: |
@@ -33,6 +34,10 @@ jobs:
     - name: Set WANDB_API_KEY environment variable
       run: |
         echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
+
+    - name: Set MPS High Watermark Ratio
+      if: runner.os == 'macOS'
+      run: echo "PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0" >> $GITHUB_ENV
 
     - name: Test with pytest
       env:  
