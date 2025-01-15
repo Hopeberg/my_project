@@ -31,10 +31,13 @@ jobs:
         pip install -r requirements_tests.txt
 
     - name: Set WANDB_API_KEY environment variable
-      run: |
-        echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
+      env:
+        WANDB-API-KEY: ${{ secrets.WANDB-API-KEY }}
+      run: echo "WANDB-API-KEY is set."
 
     - name: Test with pytest
+      env: 
+        WANDB-API-KEY: ${{ secrets.WANDB-API-KEY }}
       run: |
         pytest tests/test_data.py
         pytest tests/test_model.py
