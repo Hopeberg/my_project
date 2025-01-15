@@ -6,4 +6,5 @@ pytorch-lightning==2.5.0.post0
 wandb==0.19.2
 torch==2.2.2
 torchvision
+numpy 
 
