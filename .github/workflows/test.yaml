@@ -35,6 +35,11 @@ jobs:
         WANDB-API-KEY: ${{ secrets.WANDB-API-KEY }}
       run: echo "WANDB-API-KEY is set."
 
+    - name: Set environment variables for macOS
+      if: runner.os == 'macOS'
+      run: |
+        echo "PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0" >> $GITHUB_ENV
+
     - name: Test with pytest
       env: 
         WANDB-API-KEY: ${{ secrets.WANDB-API-KEY }}

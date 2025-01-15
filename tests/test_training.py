@@ -24,8 +24,8 @@ def test_training_step():
     model = MyAwesomeModel()
 
     # Create a dummy batch of data
-    data = torch.randn(32, 1, 28, 28)  # 32 samples, 28x28 images
-    target = torch.randint(0, 10, (32,))  # 32 labels from 0 to 9
+    data = torch.randn(16, 1, 28, 28)  # 32 samples, 28x28 images
+    target = torch.randint(0, 10, (16,))  # 32 labels from 0 to 9
 
     batch = (data, target)
 
@@ -62,9 +62,9 @@ def test_trainer():
     train_data, val_data = random_split(train_set, [55000, 5000])
 
     # Create DataLoaders
-    train_dataloader = DataLoader(train_data, batch_size=32, shuffle=True)
-    val_dataloader = DataLoader(val_data, batch_size=32)
-    test_dataloader = DataLoader(test_set, batch_size=32)
+    train_dataloader = DataLoader(train_data, batch_size=16, shuffle=True)
+    val_dataloader = DataLoader(val_data, batch_size=16)
+    test_dataloader = DataLoader(test_set, batch_size=16)
 
     model = MyAwesomeModel()
 
