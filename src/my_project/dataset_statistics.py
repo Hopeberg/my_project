@@ -7,6 +7,7 @@ from data import CustomDataset  # Ensure this import points to the correct path 
 import matplotlib.pyplot as plt
 import torch
 
+
 def show_image_and_target(images, targets, show=True):
     """
     Display images and their corresponding target labels.
@@ -55,7 +56,7 @@ def dataset_statistics(datadir: str = "data") -> None:
     # Ensure correct paths to the .pt files
     train_dataset = CustomDataset(data_file=f"{datadir}/train_data.pt")
     test_dataset = CustomDataset(data_file=f"{datadir}/test_data.pt")
-    
+
     # Print basic statistics about the training dataset
     print(f"Train dataset: {train_dataset.__class__.__name__}")
     print(f"Number of images: {len(train_dataset)}")
@@ -89,6 +90,7 @@ def dataset_statistics(datadir: str = "data") -> None:
     plt.ylabel("Count")
     plt.savefig("test_label_distribution.png")
     plt.close()
+
 
 if __name__ == "__main__":
     typer.run(dataset_statistics)
