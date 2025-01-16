@@ -8,7 +8,6 @@ from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from my_project.data import get_data_loaders
 
 
-# LightningModule definition
 class MyAwesomeModel(pl.LightningModule):
     def __init__(self) -> None:
         super().__init__()
