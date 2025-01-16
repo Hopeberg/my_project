@@ -5,6 +5,7 @@ from data import CustomDataset
 import matplotlib.pyplot as plt
 import torch
 
+
 def show_image_and_target(images, targets, show=True):
     """
     Display images and their corresponding target labels.
@@ -88,6 +89,6 @@ def dataset_statistics(datadir: str = "data") -> None:
     plt.savefig("test_label_distribution.png")
     plt.close()
 
+
 if __name__ == "__main__":
     typer.run(dataset_statistics)
-
