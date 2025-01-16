@@ -19,8 +19,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
-          cache: 'pip'
-          cache-dependency-path: requirements.txt
 
       - name: Install dependencies
         run: |
@@ -43,7 +41,7 @@ jobs:
 
       - name: Check data statistics
         run: |
-          python src/data.py > data_statistics.md
+          python my_project/src/my_project/data.py > data_statistics.md
           echo '![](./mnist_images.png "MNIST images")' >> data_statistics.md
           echo '![](./train_label_distribution.png "Train label distribution")' >> data_statistics.md
           echo '![](./test_label_distribution.png "Test label distribution")' >> data_statistics.md
