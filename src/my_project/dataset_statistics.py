@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
 import torch
 import typer
-from data import CustomDataset  # Ensure this import points to the correct path of data.py
-
-
+from data import CustomDataset  
 import matplotlib.pyplot as plt
 import torch
 
