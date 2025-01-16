@@ -7,6 +7,9 @@ on:
     paths:
       - '**/*.dvc'
       - '.dvc/**'
+      
+permissions:
+  pull-requests: write 
 
 jobs:
   format:
