@@ -39,6 +39,11 @@ jobs:
         run: |
           dvc pull --no-run-cache -v
 
+      - name: Debug paths
+        run: |
+          pwd
+          ls -R
+
       - name: Check data statistics
         run: |
           python /src/my_project/data.py > data_statistics.md
