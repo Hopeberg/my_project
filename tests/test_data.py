@@ -1,4 +1,3 @@
-from configs.config import _PATH_DATA
 from torchvision.datasets import MNIST
 from torchvision import transforms
 import pytest
@@ -12,7 +11,7 @@ import os.path
 
 
 # @pytest.mark.skipif(not os.path.exists( _PATH_DATA), reason="Data files not found")
-
+_PATH_DATA = os.path.abspath(os.path.join(os.path.dirname(__file__), "../data"))
 
 def test_training_data_size():
     print(f"Path exists: {os.path.exists(_PATH_DATA)}, Path: {_PATH_DATA}")
