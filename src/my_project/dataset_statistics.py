@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
 import torch
 import typer
-from data import CustomDataset  # Ensure this import points to the correct path of data.py
-
-
+from data import CustomDataset
 import matplotlib.pyplot as plt
 import torch
 
@@ -55,7 +53,7 @@ def dataset_statistics(datadir: str = "data") -> None:
     # Ensure correct paths to the .pt files
     train_dataset = CustomDataset(data_file=f"{datadir}/train_data.pt")
     test_dataset = CustomDataset(data_file=f"{datadir}/test_data.pt")
-    
+
     # Print basic statistics about the training dataset
     print(f"Train dataset: {train_dataset.__class__.__name__}")
     print(f"Number of images: {len(train_dataset)}")
@@ -92,6 +90,4 @@ def dataset_statistics(datadir: str = "data") -> None:
 
 if __name__ == "__main__":
     typer.run(dataset_statistics)
-
-
 
