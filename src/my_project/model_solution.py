@@ -1,26 +1,11 @@
 import wandb
 import torch
 from torch import nn
-from torch.utils.data import DataLoader, random_split
-from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+import pytorch_lightning as pl
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-import pytorch_lightning as pl
-
-
-# MNIST dataset
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
-
-train_set = datasets.MNIST(root="data", train=True, download=True, transform=transform)
-test_set = datasets.MNIST(root="data", train=False, download=True, transform=transform)
-
-# Split training set into training and validation subsets
-train_data, val_data = random_split(train_set, [55000, 5000])
-
-# Create DataLoaders
-train_dataloader = DataLoader(train_data, batch_size=32, shuffle=True)
-val_dataloader = DataLoader(val_data, batch_size=32)
-test_dataloader = DataLoader(test_set, batch_size=32)
+from my_project.data import get_data_loaders  
 
 
 # LightningModule definition
@@ -37,7 +22,7 @@ class MyAwesomeModel(pl.LightningModule):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass."""
         if x.ndim != 4:
-            raise ValueError("Expected input to a 4D tensor")
+            raise ValueError("Expected input to be a 4D tensor")
         if x.shape[1] != 1 or x.shape[2] != 28 or x.shape[3] != 28:
             raise ValueError("Expected each sample to have shape [1, 28, 28]")
         x = torch.relu(self.conv1(x))
@@ -55,9 +40,8 @@ class MyAwesomeModel(pl.LightningModule):
         preds = self(data)
         loss = self.loss_fn(preds, target)
         acc = (target == preds.argmax(dim=-1)).float().mean()
-        # self.log('train_loss', loss, on_epoch=True)
-        # self.log('train_acc', acc, on_epoch=True)
-        # self.logger.experiment.log({'logits': wandb.Histogram(preds.detach().cpu())})
+        self.log("train_loss", loss, on_epoch=True)
+        self.log("train_acc", acc, on_epoch=True)
         return loss
 
     def validation_step(self, batch) -> None:
@@ -81,6 +65,11 @@ class MyAwesomeModel(pl.LightningModule):
 
 
 if __name__ == "__main__":
+
+    # Step 2: Load DataLoaders
+    train_dataloader, val_dataloader, test_dataloader = get_data_loaders()
+
+    # Step 3: Define the model and training setup
     model = MyAwesomeModel()
     checkpoint_callback = ModelCheckpoint(dirpath="./models", monitor="val_loss", mode="min")
     early_stopping_callback = EarlyStopping(monitor="val_loss", patience=3, verbose=True, mode="min")
@@ -88,15 +77,17 @@ if __name__ == "__main__":
         max_epochs=10,
         limit_train_batches=0.2,
         callbacks=[checkpoint_callback, early_stopping_callback],
-        logger=pl.loggers.WandbLogger(project="dtu_mlops"),
     )
+
+    # Step 4: Train and evaluate the model
     trainer.fit(model, train_dataloader, val_dataloader)
     trainer.test(model, test_dataloader)
 
+    # Print model summary and test dummy input
     print(f"Model architecture: {model}")
     print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 
-    # Testing with dummy input
     dummy_input = torch.randn(1, 1, 28, 28)
     output = model(dummy_input)
     print(f"Output shape: {output.shape}")
+
