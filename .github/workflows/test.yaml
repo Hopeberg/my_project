@@ -41,8 +41,13 @@ jobs:
         echo "PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0" >> $GITHUB_ENV
         echo "PYTORCH_DISABLE_MPS=1" >> $GITHUB_ENV
 
+    - name: Set PYTHONPATH for Windows (if OS is Windows)
+      if: runner.os == 'Windows'
+      run: echo "PYTHONPATH=${{ github.workspace }}\\src" >> $GITHUB_ENV
+
     # Add PYTHONPATH to include 'src' directory for the tests
     - name: Set PYTHONPATH
+      if: runner.os != 'Windows'
       run: echo "PYTHONPATH=$(pwd)/src" >> $GITHUB_ENV
 
     - name: Test with pytest
