@@ -6,6 +6,7 @@ from torch import Tensor
 from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 
+
 class CustomDataset(Dataset):
     """Custom dataset to load .pt data files.
 
@@ -23,22 +24,22 @@ class CustomDataset(Dataset):
     ) -> None:
         super().__init__()
         self.data = torch.load(data_file)  # Load the .pt file
-        self.images = self.data['images']  # Assumes the images are stored with this key
-        self.labels = self.data['labels']  # Assumes the labels are stored with this key
+        self.images = self.data["images"]  # Assumes the images are stored with this key
+        self.labels = self.data["labels"]  # Assumes the labels are stored with this key
         self.img_transform = img_transform
         self.target_transform = target_transform
 
     def __getitem__(self, idx: int) -> tuple[Tensor, Tensor]:
         """Return image and target tensor."""
         img, target = self.images[idx], self.labels[idx]
-        
+
         # Apply transformations if specified
         if self.img_transform:
             img = self.img_transform(img)
-        
+
         if self.target_transform:
             target = self.target_transform(target)
-        
+
         return img, target
 
     def __len__(self) -> int:
@@ -64,8 +65,8 @@ def download_and_save_data(data_folder: str = "data"):
     test_labels = torch.tensor([label for _, label in test_data])  # Convert labels to a tensor
 
     # Save the data as .pt files
-    torch.save({'images': train_images, 'labels': train_labels}, f"{data_folder}/train_data.pt")
-    torch.save({'images': test_images, 'labels': test_labels}, f"{data_folder}/test_data.pt")
+    torch.save({"images": train_images, "labels": train_labels}, f"{data_folder}/train_data.pt")
+    torch.save({"images": test_images, "labels": test_labels}, f"{data_folder}/test_data.pt")
 
     print(f"Data saved to {data_folder}/train_data.pt and {data_folder}/test_data.pt")
 
@@ -73,13 +74,15 @@ def download_and_save_data(data_folder: str = "data"):
 # Function to get DataLoaders for training, validation, and testing
 def get_data_loaders(batch_size: int = 32, data_folder: str = "data"):
     """Returns DataLoaders for training, validation, and testing datasets."""
-    
+
     # Load .pt data for training and testing
     train_pt_dataset = CustomDataset(data_file=f"{data_folder}/train_data.pt")
     test_pt_dataset = CustomDataset(data_file=f"{data_folder}/test_data.pt")
 
     # Split the training dataset into training and validation
-    train_data, val_data = random_split(train_pt_dataset, [int(0.8 * len(train_pt_dataset)), int(0.2 * len(train_pt_dataset))])
+    train_data, val_data = random_split(
+        train_pt_dataset, [int(0.8 * len(train_pt_dataset)), int(0.2 * len(train_pt_dataset))]
+    )
 
     # Create DataLoaders
     train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
@@ -87,6 +90,7 @@ def get_data_loaders(batch_size: int = 32, data_folder: str = "data"):
     test_dataloader = DataLoader(test_pt_dataset, batch_size=batch_size)
 
     return train_dataloader, val_dataloader, test_dataloader
+
 
 if __name__ == "__main__":
     # Step 1: Download and save the dataset in .pt format

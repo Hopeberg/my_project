@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-from my_project.data import get_data_loaders  
+from my_project.data import get_data_loaders
 
 
 # LightningModule definition
@@ -65,7 +65,6 @@ class MyAwesomeModel(pl.LightningModule):
 
 
 if __name__ == "__main__":
-
     # Step 2: Load DataLoaders
     train_dataloader, val_dataloader, test_dataloader = get_data_loaders()
 
@@ -90,4 +89,3 @@ if __name__ == "__main__":
     dummy_input = torch.randn(1, 1, 28, 28)
     output = model(dummy_input)
     print(f"Output shape: {output.shape}")
-
