@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import torch
 import typer
-from data import CustomDataset  
+from data import CustomDataset
 import matplotlib.pyplot as plt
 import torch
 
