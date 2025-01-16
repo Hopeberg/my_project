@@ -17,7 +17,6 @@ if platform.system() == "Darwin":  # macOS
 
 
 def test_model_initialization():
-    # Initialize model
     model = MyAwesomeModel()
 
     # Check the model architecture
