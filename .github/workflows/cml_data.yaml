@@ -41,7 +41,7 @@ jobs:
 
       - name: Check data statistics
         run: |
-          python my_project/src/my_project/data.py > data_statistics.md
+          python /src/my_project/data.py > data_statistics.md
           echo '![](./mnist_images.png "MNIST images")' >> data_statistics.md
           echo '![](./train_label_distribution.png "Train label distribution")' >> data_statistics.md
           echo '![](./test_label_distribution.png "Test label distribution")' >> data_statistics.md
