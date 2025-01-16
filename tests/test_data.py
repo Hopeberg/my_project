@@ -10,13 +10,10 @@ import os
 import os.path
 
 
-# @pytest.mark.skipif(not os.path.exists( _PATH_DATA), reason="Data files not found")
 _PATH_DATA = os.path.abspath(os.path.join(os.path.dirname(__file__), "../data"))
 
 
 def test_training_data_size():
-    print(f"Path exists: {os.path.exists(_PATH_DATA)}, Path: {_PATH_DATA}")
-    print(f"Contents of path: {os.listdir(_PATH_DATA) if os.path.exists(_PATH_DATA) else 'Path does not exist'}")
     # Initialize the training dataset
     dataset = MNIST(root=_PATH_DATA, train=True, download=True, transform=transforms.ToTensor())
 
