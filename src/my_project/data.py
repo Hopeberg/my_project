@@ -53,7 +53,7 @@ def download_and_save_data(data_folder: str = "data"):
 
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
-    # Download MNIST dataset (apply the transformation during download)
+
     train_data = datasets.MNIST(root=data_folder, train=True, download=True, transform=transform)
     test_data = datasets.MNIST(root=data_folder, train=False, download=True, transform=transform)
 
