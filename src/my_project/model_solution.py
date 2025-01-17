@@ -64,7 +64,7 @@ class MyAwesomeModel(pl.LightningModule):
 
 
 if __name__ == "__main__":
-    # Step 2: Load DataLoaders
+
     train_dataloader, val_dataloader, test_dataloader = get_data_loaders()
 
     # Step 3: Define the model and training setup
