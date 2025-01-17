@@ -1,7 +1,10 @@
 [core]
-    remote = myremote
+    remote = remote_storage
 ['remote "myremote"']
     url = gdrive://18B9ZpYYES9FaM8SrGVdOMExq_xGnUP72
     gdrive_acknowledge_abuse = true
     gdrive_service_account_json_file_path = ../../credentials.json
     gdrive_use_service_account = true
+['remote "remote_storage"']
+    url = gs://hopeberg_bucket/
+    version_aware = true
