@@ -76,7 +76,6 @@ if __name__ == "__main__":
         callbacks=[checkpoint_callback, early_stopping_callback],
     )
 
-    # Step 4: Train and evaluate the model
     trainer.fit(model, train_dataloader, val_dataloader)
     trainer.test(model, test_dataloader)
 
