@@ -50,7 +50,7 @@ class CustomDataset(Dataset):
 def download_and_save_data(data_folder: str = "data"):
     """Download the data from torchvision and save it as .pt files."""
 
-    # Define transformation to apply (convert to tensor and)
+
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     # Download MNIST dataset (apply the transformation during download)
