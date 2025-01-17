@@ -61,7 +61,7 @@ def download_and_save_data(data_folder: str = "data"):
     train_images = torch.stack([img for img, _ in train_data])  
     train_labels = torch.tensor([label for _, label in train_data])  # Convert labels to a tensor
 
-    test_images = torch.stack([img for img, _ in test_data])  # Convert images to a tensor
+    test_images = torch.stack([img for img, _ in test_data])  
     test_labels = torch.tensor([label for _, label in test_data])  # Convert labels to a tensor
 
     # Save the data as .pt files
