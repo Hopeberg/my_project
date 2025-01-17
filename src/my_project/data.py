@@ -58,7 +58,7 @@ def download_and_save_data(data_folder: str = "data"):
     test_data = datasets.MNIST(root=data_folder, train=False, download=True, transform=transform)
 
     # Convert the dataset into tensors
-    train_images = torch.stack([img for img, _ in train_data])  # Convert images to a tensor
+    train_images = torch.stack([img for img, _ in train_data])  
     train_labels = torch.tensor([label for _, label in train_data])  # Convert labels to a tensor
 
     test_images = torch.stack([img for img, _ in test_data])  # Convert images to a tensor
