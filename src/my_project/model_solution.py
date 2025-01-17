@@ -67,7 +67,6 @@ if __name__ == "__main__":
 
     train_dataloader, val_dataloader, test_dataloader = get_data_loaders()
 
-    # Step 3: Define the model and training setup
     model = MyAwesomeModel()
     checkpoint_callback = ModelCheckpoint(dirpath="./models", monitor="val_loss", mode="min")
     early_stopping_callback = EarlyStopping(monitor="val_loss", patience=3, verbose=True, mode="min")
